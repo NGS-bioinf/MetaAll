@@ -5,7 +5,6 @@ To obtain the scripts, download the depository with `git clone` or `wget` and in
 - Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
 - Singularity (https://singularity-tutorial.github.io/01-installation/)
 - MEGAN (https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html)
-- Tablet (https://ics.hutton.ac.uk/tablet/)
 ### Obtain the required databases
 Download required databases:
 - KrakenUniq Standard collection (https://benlangmead.github.io/aws-indexes/k2)
@@ -63,7 +62,6 @@ For easier and faster analysis, we recommend detection by classification first, 
 ## Output
 
 ## List of tools used
-### Preprocess
 [FastQC](https://github.com/s-andrews/FastQC)
 [MultiQC](https://github.com/ewels/MultiQC)
 [NanoPack](https://github.com/wdecoster/nanopack)
@@ -77,16 +75,11 @@ For easier and faster analysis, we recommend detection by classification first, 
 [Flye](https://github.com/fenderglass/Flye)
 [medaka](https://github.com/nanoporetech/medaka)
 [seqtk](https://github.com/lh3/seqtk)
-### Taxonomic classification of reads
 [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
-### Taxonomic classification of contigs
-[viralVerify](https://github.com/ablab/viralVerify)
-[DIAMOND](https://github.com/bbuchfink/diamond)
-## Visual interpretation of results
 [Krona](https://github.com/marbl/Krona)
 [Pavian](https://github.com/fbreitwieser/pavian)
+[viralVerify](https://github.com/ablab/viralVerify)
+[DIAMOND](https://github.com/bbuchfink/diamond)
 [MEGAN](https://github.com/husonlab/megan-ce)
-[jvarkit](https://github.com/lindenb/jvarkit)
-[Tablet](https://github.com/cropgeeks/tablet)
 ## Citation
 If you have used these workflows in your research, please cite:
