@@ -1,0 +1,36 @@
+BootStrap: docker
+From: archlinux/archlinux:base
+
+%labels
+  Adapted by martin.bosilj@mf.uni-lj.si. 
+  Original authors: tomaz-mark.zorec@mf.uni-lj.si, samo.zakotnik@mf.uni-lj.si, alen.suljic@mf.uni-lj.si. 
+
+%post
+  pacman -Syu --noconfirm
+  pacman -S --noconfirm tar bzip2 xz base-devel gcc clang zlib git python3 cmake unzip glibc time bc ncurses openssl ca-certificates autoconf automake libtool perl musl wget curl pigz libxcrypt-compat joblib
+
+  cd /opt
+  curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+  bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/mambaforge
+  source /opt/mambaforge/bin/activate
+
+  cd /opt
+  pip install nanopack
+  cd /opt
+  pip install networkx
+  cd /opt
+  pip install joblib
+  cd /opt
+  git clone https://github.com/bonsai-team/Porechop_ABI.git
+  cd Porechop_ABI
+  python -m pip install .
+
+  mamba create -y -n assembly -c bioconda pip fastqc umi_tools cap3 seqtk bwa bwa-mem2 samtools=1.16.1 spades=3.15.4 minimap2 miniasm abyss bbmap cd-hit blast pilon mafft emboss racon fastp lofreq flye ragout megahit seqkit ivar freyja bowtie2 bcftools bedtools quast gatk gatk4 freebayes plink unicycler gzip unzip star trimal trimmomatic snakemake porechop seqtk seqan multiqc
+
+  conda activate assembly
+
+%environment
+  export PATH=$PATH:/opt/mambaforge/envs/assembly/bin/
+  export PATH=$PATH:/opt/mambaforge/pkgs/
+  export PATH=$PATH:/opt/mambaforge/bin/
+  export PATH=$PATH:/opt/Porechop_ABI/

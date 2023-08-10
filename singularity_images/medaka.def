@@ -1,0 +1,24 @@
+BootStrap: docker
+From: archlinux/archlinux:base
+
+%labels
+  Adapted by martin.bosilj@mf.uni-lj.si. 
+  Original authors: tomaz-mark.zorec@mf.uni-lj.si, samo.zakotnik@mf.uni-lj.si, alen.suljic@mf.uni-lj.si. 
+
+%post
+  pacman -Syu --noconfirm
+  pacman -S --noconfirm tar bzip2 xz base-devel gcc clang zlib git cmake python3 unzip glibc time bc ncurses openssl ca-certificates autoconf automake libtool perl musl wget curl pigz libxcrypt-compat
+
+  cd /opt
+  curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+  bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/mambaforge
+  source /opt/mambaforge/bin/activate
+
+  mamba create -y -n medaka -c conda-forge -c bioconda medaka
+
+  conda activate medaka
+
+%environment
+  export PATH=$PATH:/opt/mambaforge/envs/medaka/bin/
+  export PATH=$PATH:/opt/mambaforge/pkgs/
+  export PATH=$PATH:/opt/mambaforge/bin/
