@@ -23,19 +23,17 @@ sudo singularity build kraken.sif kraken.def
 ## Example of use
 All workflows are started with `bash` command. Before every run double check workflow parameters and path to samples and databases.
 
-Suggestion: befor run use "-n" flag in shell scripts, to perform dry-run.
+Suggestion: before run use "-n" flag in shell scripts, to perform dry-run.
+
+Once set, simply run the workflow with `bash <shell_script_name>.sh`.
 ### Short PE read/contig classification
 In terminal, navigate to the `short_PE_classification/` folder, which contains  `config.yml`,`run_classification.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation of results.
 Before run, set the parameters in `config.yml` file and `run_classification.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz")
-
-Once set, simply run the workflow with `bash run_classification.sh`.
 ### Short PE reads reference genome alignment
 In terminal, navigate to the `short_PE_mapping/` folder, which contains  `config.yml`,`run_mapping.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_mapping.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz").
-
-Once set, simply run the workflow with `bash run_mapping.sh`.
 ### Long read/contig classification
 In terminal, navigate to the `long_classification/` folder, which contains  `config.yml`,`run_classification.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, polishing, read/contig classification and visualization preparation of results.
@@ -48,23 +46,34 @@ if raw reads are located in `../path_to_sequence_run/fastq_pass/barcode01`, the 
 ../path_to_sequence_run/fastq_pass
 ```
 Rename folder if you wish (e.g. rename "barcode01" to "clinical_sample")
-
-Once set, simply run the workflow with `bash run_classification.sh`.
 ### Long reads reference genome alignment
 In terminal, navigate to the `long_mapping/` folder, which contains  `config.yml`,`run_mapping.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_mapping.sh` script. Check long reads extension (must end with ".fastq.gz").
-
-Once set, simply run the workflow with `bash run_mapping.sh`.
-
 ## List of tools used to build workflows
-Preprocess
-
-[FastQC](https://github.com/s-andrews/FastQC) 
-
-Taxonomic classification of reads
-
-Taxonomic classification of contigs
-
+### Preprocess
+[FastQC](https://github.com/s-andrews/FastQC)
+[MultiQC](https://github.com/ewels/MultiQC)
+[NanoPack](https://github.com/wdecoster/nanopack)
+[BBMap](https://github.com/BioInfoTools/BBMap)
+[Porechop_ABI](https://github.com/bonsai-team/Porechop_ABI)
+[bowtie2](https://github.com/BenLangmead/bowtie2)
+[BWA](https://github.com/lh3/bwa)
+[minimap2](https://github.com/lh3/minimap2)
+[samtools](https://github.com/samtools/samtools)
+[SPAdes](https://github.com/ablab/spades)
+[Flye](https://github.com/fenderglass/Flye)
+[medaka](https://github.com/nanoporetech/medaka)
+[seqtk](https://github.com/lh3/seqtk)
+### Taxonomic classification of reads
+[KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
+### Taxonomic classification of contigs
+[viralVerify](https://github.com/ablab/viralVerify)
+[DIAMOND](https://github.com/bbuchfink/diamond)
+## Visual interpretation of results
+[Krona](https://github.com/marbl/Krona)
+[Pavian](https://github.com/fbreitwieser/pavian)
+[MEGAN](https://github.com/husonlab/megan-ce)
+[jvarkit](https://github.com/lindenb/jvarkit)
 ## Citation
 If you have used these workflows in your research, please cite:
