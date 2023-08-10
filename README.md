@@ -1,7 +1,7 @@
 # MetaDone
 MetaDone is a collection of different workflows that enable integrated metagenomic analysis of short PE (e.g. Illumina) and long (e.g. Oxford Nanopore Technologies) reads. Three approaches are used for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
 ## Installation & Dependencies
-To obtain the scripts, download the depository with `git clone` or `wget`. Also, install Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) and Singularity (https://singularity-tutorial.github.io/01-installation/).
+To obtain the scripts, download the depository with `git clone` or `wget`. Also, install Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html), Singularity (https://singularity-tutorial.github.io/01-installation/) and MEGAN (https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html).
 ### Obtain the required databases
 Download required databases:
 - KrakenUniq Standard collection (https://benlangmead.github.io/aws-indexes/k2)
@@ -10,7 +10,7 @@ Download required databases:
 - NCBI nr (https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz)
 - NCBI prot.accession2taxid (https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz)
 - NCBI names/nodes (https://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip)
-- Megan (https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip)
+- MEGAN (https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip)
 - Host reference genome (e.g. hg38)
 - Pathogen reference genome (e.g. enterovirus)
   
@@ -50,7 +50,7 @@ Rename folder if you wish (e.g. rename "barcode01" to "clinical_sample")
 In terminal, navigate to the `long_mapping/` folder, which contains  `config.yml`,`run_mapping.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_mapping.sh` script. Check long reads extension (must end with ".fastq.gz").
-## List of tools used to build workflows
+## List of tools used
 ### Preprocess
 [FastQC](https://github.com/s-andrews/FastQC)
 [MultiQC](https://github.com/ewels/MultiQC)
@@ -75,5 +75,6 @@ Before run, set the parameters in `config.yml` file and `run_mapping.sh` script.
 [Pavian](https://github.com/fbreitwieser/pavian)
 [MEGAN](https://github.com/husonlab/megan-ce)
 [jvarkit](https://github.com/lindenb/jvarkit)
+[Tablet](https://github.com/cropgeeks/tablet)
 ## Citation
 If you have used these workflows in your research, please cite:
