@@ -30,7 +30,7 @@ Workflow performs quality check, trimming, host removal, assembly, read/contig c
 Before run, set the parameters in `config.yml` file and `run_classification.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz")
 
 Once set, simply run the workflow with `bash run_classification.sh`.
-### Short PE read reference genome alignment
+### Short PE reads reference genome alignment
 In terminal, navigate to the `short_PE_mapping/` folder, which contains  `config.yml`,`run_mapping.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_mapping.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz").
@@ -50,12 +50,21 @@ if raw reads are located in `../path_to_sequence_run/fastq_pass/barcode01`, the 
 Rename folder if you wish (e.g. rename "barcode01" to "clinical_sample")
 
 Once set, simply run the workflow with `bash run_classification.sh`.
-### Long read reference genome alignment
+### Long reads reference genome alignment
 In terminal, navigate to the `long_mapping/` folder, which contains  `config.yml`,`run_mapping.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_mapping.sh` script. Check long reads extension (must end with ".fastq.gz").
 
 Once set, simply run the workflow with `bash run_mapping.sh`.
+
+## List of tools used to build workflows
+Preprocess
+
+[FastQC](https://github.com/s-andrews/FastQC) 
+
+Taxonomic classification of reads
+
+Taxonomic classification of contigs
 
 ## Citation
 If you have used these workflows in your research, please cite:
