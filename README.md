@@ -1,21 +1,33 @@
 # MetaDone
 MetaDone is a collection of different workflows that enable integrated metagenomic analysis of short PE (e.g. Illumina) and long (e.g. Oxford Nanopore Technologies) reads. Three approaches are used for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
 ## Installation & Dependencies
-To obtain the scripts, download the depository with `git clone` or `wget`.
+To obtain the scripts, download the depository with `git clone` or `wget`. Also, install Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) and Singularity (https://singularity-tutorial.github.io/01-installation/).
 ### Obtain the required databases
 Download required databases:
 - KrakenUniq Standard collection (https://benlangmead.github.io/aws-indexes/k2)
 - Krona taxonomy (https://genomics.sschmeier.com/ngs-taxonomic-investigation/index.html#build-the-taxonomy)
-- viralVerify virus/chromosome-specific HMMs  (https://figshare.com/ndownloader/files/17904323?private_link=f897d463b31a35ad7bf0)
-- Diamond NCBI nr (https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz)
-- NCBI taxonomy (https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz)
+- virus/chromosome-specific HMMs  (https://figshare.com/ndownloader/files/17904323?private_link=f897d463b31a35ad7bf0)
+- NCBI nr (https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz)
+- NCBI prot.accession2taxid (https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz)
+- NCBI names/nodes (https://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip)
 - Megan (https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip)
 - Host reference genome (e.g. hg38)
-
+- Pathogen reference genome (e.g. enterovirus)
+  
 Make sure you have enough disk space.
 ### Build Singularity images
+Build images in `singularity_images/` folder and use same name as the definition files:
+
+e.g. `sudo singularity build kraken.sif kraken.def`
 ## Example of use
+All workflows are started with `bash` command. Before every run double check workflow parameters and path to samples and databases.
 ### Short PE read/contig classification
+In terminal, go to the `short_PE_classification/` folder, which contains  `config.yml`,`run_classification.sh` and `Snakefile`.
+Workflow performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation of results.
+Before run, set the parameters in `config.yml` file and `run_classification.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz")
+
+Suggestion: befor run use "-n" flag in `run_classification.sh` script, to perform dry-run.
+
 ### Short PE read reference genome alignment
 ### Long read/contig classification
 ### Long read reference genome alignment
