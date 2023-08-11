@@ -59,7 +59,7 @@ Before run, set the parameters in `config.yml` file and `run_workflow.sh` script
 **Suggestion:** Before run use "-n" flag in shell scripts, to perform dry-run.
 ## Note
 For easier and faster analysis, we recommend detection by classification first, followed by mapping. If you would like to use detection by mapping only, please note that workflows where mapping to reference genomes is performed, do not undertake preprocessing steps.
-## Output
+## Output (in progress..)
 
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
