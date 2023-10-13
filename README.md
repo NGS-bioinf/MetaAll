@@ -1,5 +1,5 @@
 # MetaDone
-MetaDone is a collection of different workflows that enable integrated metagenomic analysis of short PE (e.g. Illumina) and long (e.g. Oxford Nanopore Technologies) reads. Three approaches are used for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
+MetaDone is a collection of different workflows that enable integrated metagenomic analysis of Illumina short PE and Oxford Nanopore Technologies long reads. Three approaches are used for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
 ## Installation & Dependencies
 To obtain the scripts, download the depository with `git clone` or `wget` and install:
 - Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
