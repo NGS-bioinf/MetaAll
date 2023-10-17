@@ -171,10 +171,6 @@ Long reads reference genome alignment:
            "<output_path>/ref_mapping/bam_files/<sample_name>_sort.bam.bai"
            "<output_path>/ref_mapping/coverage_reports/<sample_name>_coverage.txt"
            "<output_path>/ref_mapping/mapping_statistics/<sample_name>_allstats.txt"
-           # consensus - samtools
-           "<output_path>/ref_mapping/consensus_samtools/<sample_name>.fasta"
-           # consensus - ivar
-           "<output_path>/ref_mapping/consensus_ivar/<sample_name>.fa"
 ```
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
