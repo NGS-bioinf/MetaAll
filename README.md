@@ -121,60 +121,60 @@ Short PE reads reference genome alignment:
            "<output_path>/ref_mapping/<sample_name>_srmdup.bam"
            "<output_path>/mapping_stats/<sample_name>_mapping_stats.log"
 
-Illumina short PE reads workflow output structure:
+ONT long reads workflow output structure:
 Long read/contig classification:
            # cat raw fastq 
-           "{results}/preprocess/catfastq/{sample}.fastq.gz"
+           "<output_path>/preprocess/catfastq/<sample_name>.fastq.gz"
            # nanoplot raw
-           "{results}/preprocess/QC/reports_raw/{sample}"
+           "<output_path>/preprocess/QC/reports_raw/<sample_name>"
            # nanocomp raw
-           "{results}/preprocess/QC/combined_raw"
+           "<output_path>/preprocess/QC/combined_raw"
            # porechop_abi
-           "{results}/preprocess/adapter_trim/{sample}.fastq.gz"
+           "<output_path>/preprocess/adapter_trim/<sample_name>.fastq.gz"
            # nanofilt
-           "{results}/preprocess/quality_trim/{sample}_trim.fastq.gz"
+           "<output_path>/preprocess/quality_trim/<sample_name>_trim.fastq.gz"
            # nanoplot filtered
-           "{results}/preprocess/QC/reports_trim/{sample}"
+           "<output_path>/preprocess/QC/reports_trim/<sample_name>"
            # nanocomp filtered
-           "{results}/preprocess/QC/combined_trim"
+           "<output_path>/preprocess/QC/combined_trim"
            # minimap2 + samtools
-           "{results}/preprocess/host_depl/bam_files/{sample}_unal_sort.bam"
-           "{results}/preprocess/host_depl/{sample}_clean.fastq.gz"
+           "<output_path>/preprocess/host_depl/bam_files/<sample_name>_unal_sort.bam"
+           "<output_path>/preprocess/host_depl/<sample_name>_clean.fastq.gz"
            # krakenuniq
-           "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq"
-           "{results}/read_classification_results/pavian_reports/{sample}_krakenuniq.report"
+           "<output_path>/read_classification_results/krakenuniq_taxonomic/<sample_name>.krakenuniq"
+           "<output_path>/read_classification_results/pavian_reports/<sample_name>_krakenuniq.report"
            # edit krona
-           "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona"
+           "<output_path>/read_classification_results/krona_visualization/<sample_name>.krakenuniq.krona"
            # krona reads
-           "{results}/read_classification_results/krona_visualization/{sample}.krona.html"
+           "<output_path>/read_classification_results/krona_visualization/<sample_name>.krona.html"
            # metaflye
-           "{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}"
-           "{results}/contig_classification_results/assembly/tmp/draft_assembly/{sample}.fasta"
-           "{results}/contig_classification_results/assembly/tmp/draft_assembly/{sample}.gfa"
+           "<output_path>/contig_classification_results/assembly/tmp/denovo_assembly/<sample_name>"
+           "<output_path>/contig_classification_results/assembly/tmp/draft_assembly/<sample_name>.fasta"
+           "<output_path>/contig_classification_results/assembly/tmp/draft_assembly/<sample_name>.gfa"
            # medaka 
-           "{results}/contig_classification_results/assembly/tmp/polishing/{sample}"
-           "{results}/contig_classification_results/assembly/tmp/polished_assembly/{sample}.fasta"
-           "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
+           "<output_path>/contig_classification_results/assembly/tmp/polishing/<sample_name>"
+           "<output_path>/contig_classification_results/assembly/tmp/polished_assembly/<sample_name>.fasta"
+           "<output_path>/contig_classification_results/assembly/final_assembly/<sample_name>.fasta"
            # viralverify
-           "{results}/contig_classification_results/viralverify_classification/{sample}"
+           "<output_path>/contig_classification_results/viralverify_classification/<sample_name>"
            # diamond blastx
-           "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
+           "<output_path>/contig_classification_results/diamond_blast/<sample_name>_diamond_blast_contigs.daa"
            # daa-meganizer
-           "{results}/contig_classification_results/meganizer_logs/{sample}.log"
+           "<output_path>/contig_classification_results/meganizer_logs/<sample_name>.log"
            # diamond view
-           "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
+           "<output_path>/contig_classification_results/diamond_view/<sample_name>_diamond_blast_contigs.tab"
            # krona contigs
-           "{results}/contig_classification_results/krona_visualization/{sample}_krona_plot.html"
+           "<output_path>/contig_classification_results/krona_visualization/<sample_name>_krona_plot.html"
 Long reads reference genome alignment:
            # minimap2 + samtools
-           "{results}/ref_mapping/bam_files/{sample}_sort.bam"
-           "{results}/ref_mapping/bam_files/{sample}_sort.bam.bai"
-           "{results}/ref_mapping/coverage_reports/{sample}_coverage.txt"
-           "{results}/ref_mapping/mapping_statistics/{sample}_allstats.txt"
+           "<output_path>/ref_mapping/bam_files/<sample_name>_sort.bam"
+           "<output_path>/ref_mapping/bam_files/<sample_name>_sort.bam.bai"
+           "<output_path>/ref_mapping/coverage_reports/<sample_name>_coverage.txt"
+           "<output_path>/ref_mapping/mapping_statistics/<sample_name>_allstats.txt"
            # consensus - samtools
-           "{results}/ref_mapping/consensus_samtools/{sample}.fasta"
+           "<output_path>/ref_mapping/consensus_samtools/<sample_name>.fasta"
            # consensus - ivar
-           "{results}/ref_mapping/consensus_ivar/{sample}.fa"
+           "<output_path>/ref_mapping/consensus_ivar/<sample_name>.fa"
 ```
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
