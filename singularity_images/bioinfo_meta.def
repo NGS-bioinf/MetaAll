@@ -1,0 +1,28 @@
+BootStrap: docker
+From: archlinux/archlinux:base
+
+%post
+  pacman -Syu --noconfirm
+  pacman -S --noconfirm tar bzip2 xz base-devel zlib git python3 cmake unzip glibc time bc ncurses openssl ca-certificates autoconf automake libtool perl musl wget curl pigz libxcrypt-compat jdk11-openjdk jre11-openjdk java11-openjfx gcc procps make libconfig libxrender fontconfig
+
+  cd /opt
+  curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+  bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/mambaforge
+  source /opt/mambaforge/bin/activate
+
+  cd /opt
+  git clone https://github.com/marbl/Krona.git
+  cd Krona/KronaTools
+  mkdir taxonomy
+  ./install.pl --prefix /opt/Krona/KronaTools     
+  bash updateTaxonomy.sh
+  bash updateAccessions.sh
+
+  mamba create -y -n bioinfo -c bioconda gzip unzip blast star trimal
+
+  conda activate bioinfo 
+
+%environment
+  export PATH=$PATH:/opt/mambaforge/envs/bioinfo/bin/
+  export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+  export PATH=/opt/Krona/KronaTools/bin:$PATH

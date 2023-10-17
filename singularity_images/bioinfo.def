@@ -1,0 +1,37 @@
+Bootstrap: library
+From: ubuntu:22.04
+
+%help 
+	bioinfo container
+
+%environment
+	LANG=C.UTF-8
+	LC_ALL=C.UTF-8
+	export LANG LC_ALL
+
+%post
+	apt-get -y update && apt-get -y upgrade
+	apt autoremove
+    apt install --fix-missing --install-recommends -y lsb-release curl wget apt-transport-https zlib1g-dev tar bzip2 gzip xz-utils unzip ca-certificates git perl make gcc libbz2-dev libssl-dev default-jdk default-jre
+
+  	cd /opt
+  	curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+  	bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/mambaforge
+  	. /opt/mambaforge/bin/activate
+
+  	cd /opt
+  	git clone https://github.com/josephhughes/DiversiTools.git
+
+  	cd /opt
+  	git clone https://github.com/tommyau/bamclipper.git
+
+  	mamba create -y -n bioinfo -c bioconda pip fastp fastqc multiqc seqtk bwa samtools=1.16 pilon bcftools=1.16 ivar freebayes gzip unzip lofreq quast snpeff bbmap bedtools minimap2 vcfpy
+
+  	conda activate bioinfo
+
+%environment
+	export PATH=$PATH:/opt/mambaforge/envs/bioinfo/bin/
+  	export PATH=/opt/bamclipper:$PATH
+  	export PATH=/opt/DiversiTools/bin:$PATH
+  	export PATH=/opt/aliview:$PATH
+
