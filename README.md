@@ -1,4 +1,4 @@
-# MetaDone
+# MetaAll
 MetaDone is a collection of different workflows that enable integrated metagenomic analysis of Illumina short PE and Oxford Nanopore Technologies long reads. Three approaches are used for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
 ## Installation & Dependencies
 To obtain the scripts, download the depository with `git clone` or `wget` and install:
