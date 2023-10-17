@@ -59,7 +59,7 @@ Before run, set the parameters in `config.yml` file and `run_workflow.sh` script
 **Suggestion:** Before run use "-n" flag in shell scripts, to perform dry-run.
 ## Note
 For easier and faster analysis, we recommend detection by classification first, followed by mapping. If you would like to use detection by mapping only, please note that workflows where mapping to reference genomes is performed, do not undertake preprocessing steps.
-## Output (in progress..)
+## Output
 ```
 Illumina short PE reads workflow output structure:
 Short PE read/contig classification:
@@ -120,6 +120,61 @@ Short PE reads reference genome alignment:
            "<output_path>/ref_mapping/<sample_name>_SE_nodup.bam.bai"
            "<output_path>/ref_mapping/<sample_name>_srmdup.bam"
            "<output_path>/mapping_stats/<sample_name>_mapping_stats.log"
+
+Illumina short PE reads workflow output structure:
+Long read/contig classification:
+           # cat raw fastq 
+           "{results}/preprocess/catfastq/{sample}.fastq.gz"
+           # nanoplot raw
+           "{results}/preprocess/QC/reports_raw/{sample}"
+           # nanocomp raw
+           "{results}/preprocess/QC/combined_raw"
+           # porechop_abi
+           "{results}/preprocess/adapter_trim/{sample}.fastq.gz"
+           # nanofilt
+           "{results}/preprocess/quality_trim/{sample}_trim.fastq.gz"
+           # nanoplot filtered
+           "{results}/preprocess/QC/reports_trim/{sample}"
+           # nanocomp filtered
+           "{results}/preprocess/QC/combined_trim"
+           # minimap2 + samtools
+           "{results}/preprocess/host_depl/bam_files/{sample}_unal_sort.bam"
+           "{results}/preprocess/host_depl/{sample}_clean.fastq.gz"
+           # krakenuniq
+           "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq"
+           "{results}/read_classification_results/pavian_reports/{sample}_krakenuniq.report"
+           # edit krona
+           "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona"
+           # krona reads
+           "{results}/read_classification_results/krona_visualization/{sample}.krona.html"
+           # metaflye
+           "{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}"
+           "{results}/contig_classification_results/assembly/tmp/draft_assembly/{sample}.fasta"
+           "{results}/contig_classification_results/assembly/tmp/draft_assembly/{sample}.gfa"
+           # medaka 
+           "{results}/contig_classification_results/assembly/tmp/polishing/{sample}"
+           "{results}/contig_classification_results/assembly/tmp/polished_assembly/{sample}.fasta"
+           "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
+           # viralverify
+           "{results}/contig_classification_results/viralverify_classification/{sample}"
+           # diamond blastx
+           "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
+           # daa-meganizer
+           "{results}/contig_classification_results/meganizer_logs/{sample}.log"
+           # diamond view
+           "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
+           # krona contigs
+           "{results}/contig_classification_results/krona_visualization/{sample}_krona_plot.html"
+Long reads reference genome alignment:
+           # minimap2 + samtools
+           "{results}/ref_mapping/bam_files/{sample}_sort.bam"
+           "{results}/ref_mapping/bam_files/{sample}_sort.bam.bai"
+           "{results}/ref_mapping/coverage_reports/{sample}_coverage.txt"
+           "{results}/ref_mapping/mapping_statistics/{sample}_allstats.txt"
+           # consensus - samtools
+           "{results}/ref_mapping/consensus_samtools/{sample}.fasta"
+           # consensus - ivar
+           "{results}/ref_mapping/consensus_ivar/{sample}.fa"
 ```
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
