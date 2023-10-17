@@ -61,7 +61,65 @@ Before run, set the parameters in `config.yml` file and `run_workflow.sh` script
 For easier and faster analysis, we recommend detection by classification first, followed by mapping. If you would like to use detection by mapping only, please note that workflows where mapping to reference genomes is performed, do not undertake preprocessing steps.
 ## Output (in progress..)
 ```
-workflow output structure
+Illumina short PE reads workflow output structure:
+Short PE read/contig classification:
+           # raw fastqc
+           "<output_path>/preprocess/QC/reports_raw/<sample_name>_R1.html"
+           "<output_path>/preprocess/QC/reports_raw/<sample_name>_R1_fastqc.zip"
+           "<output_path>/preprocess/QC/reports_raw/<sample_name>_R2.html"
+           "<output_path>/preprocess/QC/reports_raw/<sample_name>_R2_fastqc.zip"
+           # raw multiqc
+           "<output_path>/preprocess/QC/combined_raw/multiqc.html",        
+           # bbduk
+           "<output_path>/preprocess/trimmed/<sample_name>_trim_R1.fastq.gz"
+           "<output_path>/preprocess/trimmed/<sample_name>_trim_R2.fastq.gz"
+           "<output_path>/preprocess/trimmed/<sample_name>_trim_S.fastq.gz"
+           # trim fastqc
+           "<output_path>/preprocess/QC/reports_trim/<sample_name>_R1.html"
+           "<output_path>/preprocess/QC/reports_trim/<sample_name>_R1_fastqc.zip"
+           "<output_path>/preprocess/QC/reports_trim/<sample_name>_R2.html"
+           "<output_path>/preprocess/QC/reports_trim/<sample_name>_R2_fastqc.zip"
+           # trim multiqc
+           "<output_path>/preprocess/QC/combined_trim/multiqc.html"
+           # bowtie2
+           "<output_path>/preprocess/host_depl/<sample_name>_clean_R1.fastq.gz"
+           "<output_path>/preprocess/host_depl/<sample_name>_clean_R2.fastq.gz"
+           "<output_path>/preprocess/host_depl/<sample_name>_clean_S.fastq.gz"
+           "<output_path>/preprocess/host_depl/<sample_name>.bam"
+           "<output_path>/preprocess/host_depl/tmp/<sample_name>_clean_R%.fastq.gz"
+           # krakenuniq
+           "<output_path>/read_classification_results/krakenuniq_taxonomic/<sample_name>.krakenuniq"
+           "<output_path>/read_classification_results/pavian_reports/<sample_name>_krakenuniq.report"
+           # edit
+           "<output_path>/read_classification_results/krona_visualization/<sample_name>.krakenuniq.krona"
+           # krona reads
+           "<output_path>/read_classification_results/krona_visualization/<sample_name>.krona.html"
+           # metaspades
+           "<output_path>/contig_classification_results/assembly/tmp/denovo_assembly/<sample_name>"
+           "<output_path>/contig_classification_results/assembly/tmp/draft_assembly_fasta/<sample_name>.fasta"
+           # seqtk
+           "<output_path>/contig_classification_results/assembly/final_assembly/<sample_name>.fasta"
+           # viralverify
+           "<output_path>/contig_classification_results/viralverify_classification/<sample_name>"
+           # diamond blastx
+           "<output_path>/contig_classification_results/diamond_blast/<sample_name>_diamond_blast_contigs.daa"
+           # daa-meganizer
+           "<output_path>/contig_classification_results/tmp/<sample_name>.log"
+           # diamond view
+           "<output_path>/contig_classification_results/diamond_view/<sample_name>_diamond_blast_contigs.tab"
+           # krona contigs
+           "<output_path>/contig_classification_results/krona_visualization/<sample_name>_krona_plot.html"
+Short PE reads reference genome alignment:
+           "<output_path>/ref_mapping/<sample_name>_nodup.bam"
+           "<output_path>/ref_mapping/<sample_name>_nodup.bam.bai"
+           "<output_path>/ref_mapping/<sample_name>_nodup.baq.bam"
+           "<output_path>/ref_mapping/<sample_name>_nodup.baq.bam.bai"
+           "<output_path>/ref_mapping/<sample_name>_PE_nodup.bam"
+           "<output_path>/ref_mapping/<sample_name>_PE_nodup.bam.bai"
+           "<output_path>/ref_mapping/<sample_name>_SE_nodup.bam"
+           "<output_path>/ref_mapping/<sample_name>_SE_nodup.bam.bai"
+           "<output_path>/ref_mapping/<sample_name>_srmdup.bam"
+           "<output_path>/mapping_stats/<sample_name>_mapping_stats.log"
 ```
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
