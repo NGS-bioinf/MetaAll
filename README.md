@@ -62,7 +62,7 @@ For easier and faster analysis, we recommend detection by classification first, 
 ## Output
 ```
 Short PE reads workflow output structure:
-Short PE read/contig classification:
+Short PE reads/contigs classification:
            # raw fastqc
            "<output_path>/preprocess/QC/reports_raw/<sample_name>_R1.html"
            "<output_path>/preprocess/QC/reports_raw/<sample_name>_R1_fastqc.zip"
@@ -122,7 +122,7 @@ Short PE reads reference genome alignment:
            "<output_path>/mapping_stats/<sample_name>_mapping_stats.log"
 
 Long reads workflow output structure:
-Long read/contig classification:
+Long reads/contigs classification:
            # cat raw fastq 
            "<output_path>/preprocess/catfastq/<sample_name>.fastq.gz"
            # nanoplot raw
