@@ -61,7 +61,7 @@ Before run, set the parameters in `config.yml` file and `run_workflow.sh` script
 For easier and faster analysis, we recommend detection by classification first, followed by mapping. If you would like to use detection by mapping only, please note that workflows where mapping to reference genomes is performed, do not undertake preprocessing steps.
 ## Output
 ```
-Illumina short PE reads workflow output structure:
+Short PE reads workflow output structure:
 Short PE read/contig classification:
            # raw fastqc
            "<output_path>/preprocess/QC/reports_raw/<sample_name>_R1.html"
@@ -121,7 +121,7 @@ Short PE reads reference genome alignment:
            "<output_path>/ref_mapping/<sample_name>_srmdup.bam"
            "<output_path>/mapping_stats/<sample_name>_mapping_stats.log"
 
-ONT long reads workflow output structure:
+Long reads workflow output structure:
 Long read/contig classification:
            # cat raw fastq 
            "<output_path>/preprocess/catfastq/<sample_name>.fastq.gz"
