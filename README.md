@@ -26,7 +26,7 @@ sudo singularity build kraken.sif kraken.def
 ## Example of use
 All workflows are started with `bash` command. Before every run double check workflow parameters and path to samples and databases.
 Once set, simply run the selected workflow with `bash run_workflow.sh`
-### Short PE read/contig classification
+### Short PE reads/contigs classification
 In terminal, navigate to the `ill_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation of results.
 Before run, set the parameters in `config.yml` file and `run_workflow.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz").
@@ -37,7 +37,7 @@ Host reference genome must be indexed (use `bowtie2-build` command).
 From `ill_read_mapping/` folder, simply copy `workhorse.sh` and `run_workflow.sh` scripts, next to folder containing short PE reads. Name of the folder containing sequence data, must be `data`. There also has to be a reference sequence of the target pathogen present `e.g. enterovirus_refseq.fasta`.
 The script takes target virus as pos arg 1 (this arg is linked to refseq name, excluding ".fasta" extension) and thread number as pos arg 2. For example: `bash workhorse.sh enterovirus_refseq 32`. Before run, set the parameters in `workhorse.sh` and `run_workflow.sh` scripts. 
 
-### Long read/contig classification
+### Long reads/contigs classification
 In terminal, navigate to the `ont_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, polishing, read/contig classification and visualization preparation of results.
 Before run, set the parameters in `config.yml` file and `run_workflow.sh` script. 
