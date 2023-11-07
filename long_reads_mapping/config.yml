@@ -1,0 +1,18 @@
+---
+# Configuration file, where you define input/output path and mapping parameters
+
+# Author: mbosilj
+
+# Path to long reads in fastq.gz format
+input_fastq: "/long_read_analysis/preprocess/host_depl/"
+# Output directory
+output_dir: "/long_read_analysis"
+# Singularity images path
+singularity_image_path: "/singularity_images"
+
+# Mapping to reference
+# Reference genome
+reference_genome: "/references/example_refseq.fasta"
+# Samtools coverage
+mapping_quality_threshold: "10" #(Default: 0)
+base_quality_threshold: "10" #(Default: 0)

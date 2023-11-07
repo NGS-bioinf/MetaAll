@@ -1,0 +1,299 @@
+# This script performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation.
+# Before run, set the parameters in config.yml file and run_workflow.sh script.
+
+#Authors: mbosilj, asuljic, szakotnik
+
+import os
+import glob
+
+configfile: 
+         "config.yml"
+       
+output=config["output_dir"]
+adapters=config["adapters_fasta"]
+minlen=config["minlen"]              
+kmer=config["kmer_length"]
+mink=config["min_kmer_length"]
+q_trim=config["quality_trim"]
+ref=config["reference_genome"]
+min_con=config["minimum_contig_length"]
+krakenuniq_path=config["krakenuniq_db_path"]
+krona=config["krona_path"]
+hmm=config["hmm_db"]
+diamond=config["diamond_db"]
+taxonmap=config["taxonmap_db"]
+taxonnodes=config["taxonnodes_db"]
+taxonnames=config["taxonnames_db"]
+megan=config["megan_db"]
+memory=config["memory_limit"]
+
+fastqDir = config["input_fastq"] + '/'
+samples = glob.glob(fastqDir + '*_R1.fastq.gz')
+samples = [os.path.basename(x) for x in samples]
+samples = [x.replace('_R1.fastq.gz','') for x in samples]
+
+#########################
+######## RULES ##########
+#########################
+
+def get_r1(wildcards):
+    return glob.glob(fastqDir + wildcards.sample + '_R1.fastq.gz')
+
+def get_r2(wildcards):
+    return glob.glob(fastqDir + wildcards.sample + '_R2.fastq.gz')
+
+rule all:
+    input:
+        expand([
+           # raw fastqc
+           "{results}/preprocess/QC/reports_raw/{sample}_R1.html",
+           "{results}/preprocess/QC/reports_raw/{sample}_R1_fastqc.zip",
+           "{results}/preprocess/QC/reports_raw/{sample}_R2.html",
+           "{results}/preprocess/QC/reports_raw/{sample}_R2_fastqc.zip",
+           # raw multiqc
+           "{results}/preprocess/QC/combined_raw/multiqc.html",        
+           # bbduk
+           "{results}/preprocess/trimmed/{sample}_trim_R1.fastq.gz",
+           "{results}/preprocess/trimmed/{sample}_trim_R2.fastq.gz",
+           "{results}/preprocess/trimmed/{sample}_trim_S.fastq.gz",   
+           # trim fastqc
+           "{results}/preprocess/QC/reports_trim/{sample}_R1.html",
+           "{results}/preprocess/QC/reports_trim/{sample}_R1_fastqc.zip",
+           "{results}/preprocess/QC/reports_trim/{sample}_R2.html",
+           "{results}/preprocess/QC/reports_trim/{sample}_R2_fastqc.zip",
+           # trim multiqc
+           "{results}/preprocess/QC/combined_trim/multiqc.html",
+           # bowtie2
+           "{results}/preprocess/host_depl/{sample}_clean_R1.fastq.gz",
+           "{results}/preprocess/host_depl/{sample}_clean_R2.fastq.gz",
+           "{results}/preprocess/host_depl/{sample}_clean_S.fastq.gz",
+           "{results}/preprocess/host_depl/{sample}.bam",
+           "{results}/preprocess/host_depl/tmp/{sample}_clean_R%.fastq.gz",
+           # krakenuniq
+           "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq",
+           "{results}/read_classification_results/pavian_reports/{sample}_krakenuniq.report",
+           # edit
+           "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona",
+           # krona
+           "{results}/read_classification_results/krona_visualization/{sample}.krona.html",
+           # metaspades
+           "{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}",
+           "{results}/contig_classification_results/assembly/tmp/draft_assembly_fasta/{sample}.fasta",
+           # seqtk
+           "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta",
+           # viralverify
+           "{results}/contig_classification_results/viralverify_classification/{sample}",
+           # diamond blastx
+           "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa",
+           # daa-meganizer
+           "{results}/contig_classification_results/tmp/{sample}.log",
+           # diamond view
+           "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab",
+           # krona
+           "{results}/contig_classification_results/krona_visualization/{sample}_krona_plot.html",
+        ], results=output, sample=samples)
+
+rule fastqc_raw_R1:
+    input:
+        get_r1
+    output:
+        html="{results}/preprocess/QC/reports_raw/{sample}_R1.html",
+        zip="{results}/preprocess/QC/reports_raw/{sample}_R1_fastqc.zip" 
+    params: "--quiet"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/fastqc"
+
+rule fastqc_raw_R2:
+    input:
+        get_r2
+    output:
+        html="{results}/preprocess/QC/reports_raw/{sample}_R2.html",
+        zip="{results}/preprocess/QC/reports_raw/{sample}_R2_fastqc.zip" 
+    params: "--quiet"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/fastqc"
+
+rule multiqc_raw:
+    input:
+        expand("{results}/preprocess/QC/reports_raw/{sample}_R{number}.html", results=output, sample=samples, number=["1", "2"])
+    output:
+        "{results}/preprocess/QC/combined_raw/multiqc.html"
+    log:
+        "{results}/preprocess/QC/combined_raw/multiqc.log"
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/multiqc"
+
+rule bbduk:
+    input:
+        R1=get_r1,
+        R2=get_r2
+    output:
+        R1="{results}/preprocess/trimmed/{sample}_trim_R1.fastq.gz",
+        R2="{results}/preprocess/trimmed/{sample}_trim_R2.fastq.gz",
+        S="{results}/preprocess/trimmed/{sample}_trim_S.fastq.gz",
+    threads: 128           
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && bbduk.sh in1={input.R1} in2={input.R2} out1={output.R1} out2={output.R2} outs={output.S} ref={adapters} ktrim=r k={kmer} mink={mink} qtrim=rl trimq={q_trim} minlen={minlen} threads={threads} overwrite=t -Xmx{memory}g && date"
+
+rule fastqc_trim_R1:
+    input:
+        "{results}/preprocess/trimmed/{sample}_trim_R1.fastq.gz",
+    output:
+        html="{results}/preprocess/QC/reports_trim/{sample}_R1.html",
+        zip="{results}/preprocess/QC/reports_trim/{sample}_R1_fastqc.zip" 
+    params: "--quiet"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/fastqc"
+
+rule fastqc_trim_R2:
+    input:
+        "{results}/preprocess/trimmed/{sample}_trim_R2.fastq.gz",
+    output:
+        html="{results}/preprocess/QC/reports_trim/{sample}_R2.html",
+        zip="{results}/preprocess/QC/reports_trim/{sample}_R2_fastqc.zip" 
+    params: "--quiet"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/fastqc"
+        
+rule multiqc_trim:
+    input:
+        expand("{results}/preprocess/QC/reports_trim/{sample}_R{number}.html", results=output, sample=samples, number=["1", "2"])
+    output:
+        "{results}/preprocess/QC/combined_trim/multiqc.html"
+    log:
+        "{results}/preprocess/QC/combined_trim/multiqc.log"
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    wrapper:
+        "v1.21.4/bio/multiqc"
+
+rule bowtie2:
+    input:
+        R1="{results}/preprocess/trimmed/{sample}_trim_R1.fastq.gz",
+        R2="{results}/preprocess/trimmed/{sample}_trim_R2.fastq.gz",
+        S="{results}/preprocess/trimmed/{sample}_trim_S.fastq.gz",
+    output:
+        PE=touch("{results}/preprocess/host_depl/tmp/{sample}_clean_R%.fastq.gz"),
+        S="{results}/preprocess/host_depl/{sample}_clean_S.fastq.gz",
+        BAM="{results}/preprocess/host_depl/{sample}.bam",
+        PE1="{results}/preprocess/host_depl/{sample}_clean_R1.fastq.gz",
+        PE2="{results}/preprocess/host_depl/{sample}_clean_R2.fastq.gz"
+    threads: 128       
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && bowtie2 -p {threads} -x {ref} -1 {input.R1} -2 {input.R2} -U {input.S} --un-gz {output.S} --un-conc-gz {output.PE} | samtools view -uhS -f 4 -@ {threads} | samtools sort -o {output.BAM} -@ {threads} && mv {wildcards.results}/preprocess/host_depl/tmp/{wildcards.sample}_clean_R1.fastq.gz {output.PE1} && mv {wildcards.results}/preprocess/host_depl/tmp/{wildcards.sample}_clean_R2.fastq.gz {output.PE2} && date"
+
+rule krakenuniq:
+    input:
+        R1="{results}/preprocess/host_depl/{sample}_clean_R1.fastq.gz",
+        R2="{results}/preprocess/host_depl/{sample}_clean_R2.fastq.gz",
+    output:
+        krakenuniq_class = "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq",
+        report = "{results}/read_classification_results/pavian_reports/{sample}_krakenuniq.report",
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && krakenuniq --db {krakenuniq_path} --preload-size {memory}G --report {output.report} --check-names --paired --threads {threads} {input.R1} {input.R2} > {output.krakenuniq_class} && date"
+           
+rule edit_krona:
+    input:
+        "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq"
+    output:
+        "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona"
+    shell:
+        "date && cat {input} | cut -f 2,3 > {output} && date"
+       
+rule krona_read:
+    input:
+        "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona"
+    output:
+        "{results}/read_classification_results/krona_visualization/{sample}.krona.html"
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && ktImportTaxonomy {input} -o {output} -tax {krona} && date"
+
+rule metaspades:
+    input:
+        R1="{results}/preprocess/host_depl/{sample}_clean_R1.fastq.gz",
+        R2="{results}/preprocess/host_depl/{sample}_clean_R2.fastq.gz",
+    output:
+        directory("{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}")
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && metaspades.py --pe-1 1 {input.R1} --pe-2 1 {input.R2} -t {threads} -m {memory} -k 21,33,55,77,99,127 -o {output} && date"
+
+rule copy_draft_fasta:
+    input:
+        "{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}"
+    output:
+        "{results}/contig_classification_results/assembly/tmp/draft_assembly_fasta/{sample}.fasta"
+    shell:
+        "date && cp {input}/contigs.fasta {output} && date"
+
+rule seqtk:
+    input:
+        "{results}/contig_classification_results/assembly/tmp/draft_assembly_fasta/{sample}.fasta"
+    output:
+        "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && seqtk seq -L {min_con} {input} > {output} && date"
+
+rule viralverify:
+    input:
+        "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
+    output:
+        directory("{results}/contig_classification_results/viralverify_classification/{sample}")
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && viralverify -t {threads} -p -f {input} -o {output} --hmm {hmm} && date"
+
+rule diamond_blastx:
+    input:
+        "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
+    output:
+        "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && diamond blastx -d {diamond} --taxonmap {taxonmap} --taxonnodes {taxonnodes} --taxonnames {taxonnames} -q {input} --threads {threads} --block-size 6 --outfmt 100 -o {output} && date"
+
+rule daa_meganizer:
+    input:
+        "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
+    log:
+        "{results}/contig_classification_results/tmp/{sample}.log"
+    threads: 128
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && daa-meganizer --threads {threads} -i {input} --classify -mdb {megan} > {log} && date"
+
+rule diamond_view:
+    input:
+        "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
+    output:
+        "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && diamond view --daa {input} -o {output} && date"
+
+rule krona_contig:
+    input:
+        "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
+    output:
+        "{results}/contig_classification_results/krona_visualization/{sample}_krona_plot.html"
+    singularity: config['singularity_image_path']+"/shortreads.sif"
+    shell:
+        "date && ktImportBLAST {input} -o {output} && date"

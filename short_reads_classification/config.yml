@@ -1,0 +1,47 @@
+---
+# Configuration file, where you define input/output path, analysis parameters and path to databases.
+
+#Author: mbosilj
+
+#Set max memory limit in Gb for bbduk, krakenuniq and metaspades
+memory_limit: "100"
+
+# Path to short PE reads in fastq.gz format (PE read must end with "_R1.fastq.gz" and "_R2.fastq.gz")
+input_fastq: "/short_PE_read_analysis/data"
+# Output directory
+output_dir: "/short_PE_read_analysis"
+# Singularity images path
+singularity_image_path: "/singularity_images"
+
+# Quality check & trimming parameters
+adapters_fasta: "/references/adapters.fa"
+minlen: "60"
+kmer_length: "27"
+min_kmer_length: "5"
+quality_trim: "12"
+
+# Host depletion parameters
+# Reference genome (before run build index, using bowtie2-build command)
+reference_genome: "/references/GRCh38_latest_genomic.fna.gz"
+
+# Assembly parameters
+# Set minimum contig length
+minimum_contig_length: "300"
+
+# Databases
+# Krakenuniq database path
+krakenuniq_db_path: "/databases/kraken/kuniq_standard_minus_kdb.20220616"
+# Krona taxonomy path
+krona_path: "/databases/kraken/krona/taxonomy"
+# hmm database path
+hmm_db: "/databases/HMMdb/nbc_hmms.hmm"
+# diamond database path
+diamond_db: "/databases/DIAMOND-DB-2023-03-05/nr.dmnd"
+# taxonmap database path
+taxonmap_db: "/databases/NCBItaxonomy/prot.accession2taxid.FULL.gz"
+# taxonnodes database path
+taxonnodes_db: "/databases/NCBItaxonomy/nodes.dmp"
+# taxonnames database path
+taxonnames_db: "/databases/NCBItaxonomy/names.dmp"
+# megan database path
+megan_db: "/databases/MEGAN/megan-map-Feb2022.db"
