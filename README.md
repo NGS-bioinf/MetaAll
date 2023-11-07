@@ -5,6 +5,9 @@ To obtain the scripts, download repository using `git clone` or `wget` and addit
 - Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
 - Singularity (https://singularity-tutorial.github.io/01-installation/)
 - MEGAN (https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html)
+  
+**NOTE:** Build Singularity images obtained in `singularity_images` folder.
+
 ### Obtain the required databases
 Download required databases:
 - KrakenUniq Standard collection (https://benlangmead.github.io/aws-indexes/k2)
