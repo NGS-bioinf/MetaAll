@@ -170,6 +170,7 @@ Long reads reference genome alignment:
            "<output_path>/ref_mapping/bam_files/<sample_name>_sort.bam.bai"
            "<output_path>/ref_mapping/coverage_reports/<sample_name>_coverage.txt"
            "<output_path>/ref_mapping/mapping_statistics/<sample_name>_allstats.txt"
+           "{results}/ref_mapping/mapping_statistics/{sample}_covdepth.txt"
 ```
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
