@@ -6,7 +6,7 @@ To obtain the scripts, download repository using `git clone` or `wget` and addit
 - Singularity (https://singularity-tutorial.github.io/01-installation/)
 - MEGAN (https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html)
   
-**NOTE:** Build Singularity images from definition files (use same name) in `singularity_images` folder.
+**NOTE:** Build Singularity images from definition files (.def and .sif file must have same name) in `singularity_images` folder.
 
 ### Obtain the required databases
 Download required databases:
