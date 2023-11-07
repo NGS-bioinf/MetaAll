@@ -18,11 +18,7 @@ Download required databases:
 - Pathogen reference genome (e.g. enterovirus)
   
 **NOTE:** Make sure you have enough disk space.
-### Build Singularity images
-Build images in `singularity_images/` folder and use same name as the definition files. For example:
-```
-sudo singularity build kraken.sif kraken.def
-```
+
 ## Example of use
 All workflows are started with `bash` command. Before every run double check workflow parameters and path to samples and databases.
 Once set, simply run the selected workflow with `bash run_workflow.sh`
