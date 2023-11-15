@@ -23,8 +23,8 @@ Download required databases:
 **NOTE:** Make sure you have enough disk space.
 
 ## Example of use
-All workflows are started with `bash` command. Before every run double check workflow parameters and path to samples and databases.
-Once set, simply run the selected workflow with `bash run_workflow.sh`
+Before every run double check workflow parameters and path to samples and databases.
+Once set, simply run `bash run_workflow.sh`
 ### Short PE reads/contigs classification
 In terminal, navigate to the `ill_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation of results.
@@ -193,4 +193,4 @@ Long reads reference genome alignment:
 [DIAMOND](https://github.com/bbuchfink/diamond)
 [MEGAN](https://github.com/husonlab/megan-ce)
 ## Citation
-If you have used these workflows in your research, please cite:
+If you have used workflow in your research, please cite:
