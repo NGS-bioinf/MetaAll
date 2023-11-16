@@ -26,18 +26,18 @@ Download required databases:
 Before every run double check workflow parameters and path to samples and databases.
 Once set, simply run `bash run_workflow.sh`
 ### Short PE reads/contigs classification
-In terminal, navigate to the `ill_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
+In terminal, navigate to the `short_reads_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation of results.
 Before run, set the parameters in `config.yml` file and `run_workflow.sh` script. Check PE reads name (must end with "_R1.fastq.gz" and "_R2.fastq.gz").
 Host reference genome must be indexed (use `bowtie2-build` command). 
 
 **Suggestion:** Before run use "-n" flag in shell scripts, to perform dry-run.
 ### Short PE reads reference genome alignment
-From `ill_read_mapping/` folder, simply copy `workhorse.sh` and `run_workflow.sh` scripts, next to folder containing short PE reads. Name of the folder containing sequence data, must be `data`. There also has to be a reference sequence of the target pathogen present `e.g. enterovirus_refseq.fasta`.
+From `short_reads_mapping/` folder, simply copy `workhorse.sh` and `run_workflow.sh` scripts, next to folder containing short PE reads. Name of the folder containing sequence data, must be `data`. There also has to be a reference sequence of the target pathogen present `e.g. enterovirus_refseq.fasta`.
 The script takes target virus as pos arg 1 (this arg is linked to refseq name, excluding ".fasta" extension) and thread number as pos arg 2. For example: `bash workhorse.sh enterovirus_refseq 32`. Before run, set the parameters in `workhorse.sh` and `run_workflow.sh` scripts. 
 
 ### Long reads/contigs classification
-In terminal, navigate to the `ont_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
+In terminal, navigate to the `long_reads_classification/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs quality check, trimming, host removal, assembly, polishing, read/contig classification and visualization preparation of results.
 Before run, set the parameters in `config.yml` file and `run_workflow.sh` script. 
 
@@ -51,7 +51,7 @@ Rename folder if you wish (e.g. rename "barcode01" to "clinical_sample")
 
 **Suggestion:** Before run use "-n" flag in shell scripts, to perform dry-run.
 ### Long reads reference genome alignment
-In terminal, navigate to the `ont_read_mapping/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
+In terminal, navigate to the `long_reads_mapping/` folder, which contains  `config.yml`,`run_workflow.sh` and `Snakefile`.
 Workflow performs performs mapping on the provided reference genome and calculation of the mapping statistics.
 Before run, set the parameters in `config.yml` file and `run_workflow.sh` script. Check long reads extension (must end with ".fastq.gz").
 
