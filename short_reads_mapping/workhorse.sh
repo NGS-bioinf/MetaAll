@@ -3,7 +3,7 @@
 # This script performs mapping on the provided reference genome and calculation of the mapping statistics.
 # Before run, set the parameters in run_workflow.sh script.
 
-#Authors: asuljic, szakotnik
+#Authors: asuljic
 
 # Samtools coverage is set to "-q 10 -Q 10" (change if necessary).
 
