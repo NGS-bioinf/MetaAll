@@ -2,7 +2,7 @@
 
 # A script that controls the flow and order of short PE reads mapping analysis.
 
-#Authors: asuljic
+#Author: asuljic
 
 # Prerequisites:
 # 1. Data should be stored in current working directory as "data"!
