@@ -192,5 +192,3 @@ Long reads reference genome alignment:
 [viralVerify](https://github.com/ablab/viralVerify)
 [DIAMOND](https://github.com/bbuchfink/diamond)
 [MEGAN](https://github.com/husonlab/megan-ce)
-## Citation
-If you have used workflow in your research, please cite:
