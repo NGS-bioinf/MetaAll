@@ -1,5 +1,5 @@
 # MetaAll
-MetaAll is a collection of different methods, combined into three-pronged workflow, that enable integrated metagenomic analysis of Illumina short PE and Oxford Nanopore Technologies (ONT) long reads. Three methods are combined for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
+MetaAll is a collection of different methods, combined into three-step workflow, that enable integrated metagenomic analysis of Illumina short PE and Oxford Nanopore Technologies (ONT) long reads. Three methods are combined for pathogen detection: taxonomic classification of reads, taxonomic classification of contigs and mapping to reference genomes.
 ## Installation & Dependencies
 To obtain the scripts, download repository using `git clone` or `wget` and additionally install:
 - Snakemake workflow management system (https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
