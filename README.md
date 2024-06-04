@@ -47,7 +47,7 @@ if raw reads are located in `../path_to_sequence_run/fastq_pass/barcode01`, the 
 ```
 ../path_to_sequence_run/fastq_pass
 ```
-Rename folder if you wish (e.g. rename "barcode01" to "clinical_sample")
+Rename folder if you wish (e.g. rename "barcode01" to "sample01")
 
 **Suggestion:** Before run use "-n" flag in shell scripts, to perform dry-run.
 ### Long reads reference genome alignment
