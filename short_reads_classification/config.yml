@@ -36,7 +36,7 @@ krona_path: "/databases/kraken/krona/taxonomy"
 # hmm database path
 hmm_db: "/databases/HMMdb/nbc_hmms.hmm"
 # diamond database path
-diamond_db: "/databases/DIAMOND-DB-2023-03-05/nr.dmnd"
+diamond_db: "/databases/DIAMOND-DB/nr.dmnd"
 # taxonmap database path
 taxonmap_db: "/databases/NCBItaxonomy/prot.accession2taxid.FULL.gz"
 # taxonnodes database path
