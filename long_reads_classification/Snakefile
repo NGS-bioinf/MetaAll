@@ -1,7 +1,7 @@
 # This script performs quality check, trimming, host removal, assembly, polishing, read/contig classification and visualization preparation.
 # Before run, set the parameters in config.yml file and run_analysis.sh script.
 
-#Authors: mbosilj, asuljic, szakotnik
+# Authors: mbosilj, asuljic, szakotnik
 
 import os
 
