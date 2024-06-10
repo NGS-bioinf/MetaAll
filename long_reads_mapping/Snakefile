@@ -42,7 +42,7 @@ rule minimap2_samtools:
     output:
         "{results}/ref_mapping/bam_files/{sample}_sort.bam"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "minimap2 -a -t {threads} -x map-ont {ref} {input} | samtools view -F 4 -uhS -@ {threads} | samtools sort -@ {threads} > {output}"
 
@@ -51,7 +51,7 @@ rule samtools_coverage:
         "{results}/ref_mapping/bam_files/{sample}_sort.bam"
     output:
         "{results}/ref_mapping/coverage_reports/{sample}_coverage.txt"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "samtools coverage -q {min_MQ} -Q {min_BQ} {input} -o {output}"
 
@@ -60,7 +60,7 @@ rule samtools_flagstat:
         "{results}/ref_mapping/bam_files/{sample}_sort.bam"
     output:
         "{results}/ref_mapping/mapping_statistics/{sample}_allstats.txt"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "samtools flagstat {input} > {output}"
 
@@ -69,7 +69,7 @@ rule samtools_depth:
         "{results}/ref_mapping/bam_files/{sample}_sort.bam"
     output:
         "{results}/ref_mapping/mapping_statistics/{sample}_covdepth.txt"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "samtools depth -aa -H -q {min_MQ} -Q {min_BQ} {input} -o {output}"
 
@@ -79,6 +79,6 @@ rule samtools_index:
     output:
         "{results}/ref_mapping/bam_files/{sample}_sort.bam.bai"
     threads: 64
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "samtools index {input} > {output}"
