@@ -1,0 +1,35 @@
+Bootstrap: library
+From: ubuntu:22.04
+
+%help 
+    bioinformatics container
+
+%labels
+    Authors: asuljic, mbosilj
+
+%environment
+    LANG=C.UTF-8
+    LC_ALL=C.UTF-8
+    export LANG LC_ALL
+
+%post
+    apt-get -y update && apt-get -y upgrade
+    apt autoremove
+    apt install --fix-missing --install-recommends -y lsb-release curl wget apt-transport-https zlib1g-dev tar bzip2 gzip xz-utils unzip ca-certificates git perl make gcc libbz2-dev libssl-dev default-jdk default-jre
+
+    cd /opt
+    curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+    bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/mambaforge
+    . /opt/mambaforge/bin/activate
+
+    cd /opt
+    pip install nanopack
+
+    mamba create -y -n bioinformatics -c bioconda samtools=1.16.1 snakemake=7.22.0 fastqc multiqc seqtk bwa bwa-mem2 spades=3.15.5 bbmap blast fastp megahit iva seqkit bowtie2 bcftools bedtools quast trimmomatic seqan flye=2.9.2 minimap2 viralverify porechop diamond snakemake-wrapper-utils ivar
+
+    conda activate bioinformatics
+
+%environment
+  export PATH=$PATH:/opt/mambaforge/envs/bioinformatics/bin/
+  export PATH=$PATH:/opt/mambaforge/pkgs/
+  export PATH=$PATH:/opt/mambaforge/bin/
