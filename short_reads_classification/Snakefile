@@ -1,7 +1,7 @@
 # This script performs quality check, trimming, host removal, assembly, read/contig classification and visualization preparation.
 # Before run, set the parameters in config.yml file and run_workflow.sh script.
 
-#Authors: mbosilj, asuljic, szakotnik
+# Authors: mbosilj, asuljic, szakotnik
 
 import os
 import glob
