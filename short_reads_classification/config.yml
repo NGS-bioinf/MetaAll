@@ -1,7 +1,7 @@
 ---
 # Configuration file, where you define input/output path, analysis parameters and path to databases.
 
-#Author: mbosilj
+# Author: mbosilj
 
 #Set max memory limit in Gb for bbduk, krakenuniq and metaspades
 memory_limit: "100"
