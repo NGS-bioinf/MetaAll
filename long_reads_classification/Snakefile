@@ -103,7 +103,7 @@ rule nanocomp_raw:
     output:
         directory("{results}/preprocess/QC/combined_raw")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && NanoComp -t {threads} --fastq {input.fastq} -o {output} && date"
 
@@ -113,7 +113,7 @@ rule porechop_abi:
     output:
         "{results}/preprocess/adapter_trim/{sample}.fastq.gz"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && porechop_abi -abi -i {input} -o {output} -t {threads} && date" 
 
@@ -123,7 +123,7 @@ rule nanofilt:
     output:
         "{results}/preprocess/quality_trim/{sample}_trim.fastq.gz"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && zcat {input} | NanoFilt -q {quality} -l {length} --headcrop {headcrop} --tailcrop {tailcrop} | gzip > {output} && date"        
 
@@ -133,7 +133,7 @@ rule nanoplot_trim:
     output:
         directory("{results}/preprocess/QC/reports_trim/{sample}")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && NanoPlot -t {threads} --fastq {input} --loglength -o {output} --plots dot && date"
 
@@ -143,7 +143,7 @@ rule nanocomp_trim:
     output:
         directory("{results}/preprocess/QC/combined_trim")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && NanoComp -t {threads} --fastq {input} -o {output} && date"
 
@@ -153,7 +153,7 @@ rule minimap2_samtools:
     output:
         "{results}/preprocess/host_depl/bam_files/{sample}_unal_sort.bam"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && minimap2 -a -t {threads} -x map-ont {ref} {input} | samtools view -uhS -f 4 -@ {threads} | samtools sort -@ {threads} > {output} && date"
 
@@ -162,7 +162,7 @@ rule samtools_fastq:
         "{results}/preprocess/host_depl/bam_files/{sample}_unal_sort.bam"
     output:
         "{results}/preprocess/host_depl/{sample}_clean.fastq.gz"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     threads: 128
     shell:
         "date && samtools fastq {input} -n -@ {threads} | gzip > {output} && date"
@@ -174,7 +174,7 @@ rule krakenuniq:
         krakenuniq_class = "{results}/read_classification_results/krakenuniq_taxonomic/{sample}.krakenuniq",
         report = "{results}/read_classification_results/pavian_reports/{sample}_krakenuniq.report",
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/kraken.sif"
     shell:
         "date && krakenuniq --db {krakenuniq_path} --preload-size {memory}G --report {output.report} --check-names --threads {threads} {input} > {output.krakenuniq_class} && date"
                
@@ -191,7 +191,7 @@ rule krona_read:
         "{results}/read_classification_results/krona_visualization/{sample}.krakenuniq.krona"
     output:
         "{results}/read_classification_results/krona_visualization/{sample}.krona.html"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/kraken.sif"
     shell:
         "date && ktImportTaxonomy {input} -o {output} -tax {krona} && date"
 
@@ -201,7 +201,7 @@ rule metaflye:
     output:
         directory("{results}/contig_classification_results/assembly/tmp/denovo_assembly/{sample}")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && flye --nano-raw {input} --meta -t {threads} -o {output} && date"
 
@@ -228,7 +228,7 @@ rule medaka:
     output:
         directory("{results}/contig_classification_results/assembly/tmp/polishing/{sample}")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/medaka.sif"
     shell:
         "date && medaka_consensus -i {input.fastq} -d {input.assembly} -o {output} -t {threads} -m {model} && date"
 
@@ -246,7 +246,7 @@ rule seqtk:
     output:
         "{results}/contig_classification_results/assembly/final_assembly/{sample}.fasta"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif" 
+    singularity: config['singularity_image_path']+"/bioinformatics.sif" 
     shell:
         "date && seqtk seq -L {min_con} {input} > {output} && date"
 
@@ -256,7 +256,7 @@ rule viralverify:
     output:
         directory("{results}/contig_classification_results/viralverify_classification/{sample}")
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && viralverify -t {threads} -p -f {input} -o {output} --hmm {hmm} && date"
 
@@ -266,7 +266,7 @@ rule diamond_blastx:
     output:
         "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && diamond blastx -d {diamond} --taxonmap {taxonmap} --taxonnodes {taxonnodes} --taxonnames {taxonnames} -q {input} --threads {threads} --block-size 6 --outfmt 100 -o {output} && date"
 
@@ -276,7 +276,7 @@ rule daa_meganizer:
     log:
         "{results}/contig_classification_results/meganizer_logs/{sample}.log"
     threads: 128
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && daa-meganizer --threads {threads} -i {input} --classify -mdb {megan} > {log} && date"
 
@@ -285,7 +285,7 @@ rule diamond_view:
         "{results}/contig_classification_results/diamond_blast/{sample}_diamond_blast_contigs.daa"
     output:
         "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/bioinformatics.sif"
     shell:
         "date && diamond view --daa {input} -o {output} && date"
 
@@ -294,6 +294,6 @@ rule krona_contig:
         "{results}/contig_classification_results/diamond_view/{sample}_diamond_blast_contigs.tab"
     output:
         "{results}/contig_classification_results/krona_visualization/{sample}_krona_plot.html"
-    singularity: config['singularity_image_path']+"/longreads.sif"
+    singularity: config['singularity_image_path']+"/kraken.sif"
     shell:
         "date && ktImportBLAST {input} -o {output} && date"
