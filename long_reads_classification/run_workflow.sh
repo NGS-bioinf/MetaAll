@@ -2,7 +2,7 @@
 
 # A script that controls the flow and order of long reads classification analysis. 
 
-#Authors: asuljic, mbosilj
+# Authors: asuljic, mbosilj
 
 # Prerequisites:
 # - Have snakemake installed and placed all singularity images.
