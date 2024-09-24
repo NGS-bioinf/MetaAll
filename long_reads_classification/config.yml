@@ -14,9 +14,13 @@ output_dir: "/long_read_analysis"
 singularity_image_path: "/singularity_images"
 
 # Quality check & trimming parameters
+# Filter on a minimum average read quality score
 quality_score: "10"
-min_length: "200"
+# Filter on a minimum read length
+min_length: "100"
+# Trim n nucleotides from start of read
 headcrop_length: "0"
+# Trim n nucleotides from start of read
 tailcrop_length: "0"
 
 # Host depletion parameters
