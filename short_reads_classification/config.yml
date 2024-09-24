@@ -14,10 +14,15 @@ output_dir: "/short_PE_read_analysis"
 singularity_image_path: "/singularity_images"
 
 # Quality check & trimming parameters
+# fasta file containing adapter sequences
 adapters_fasta: "/references/adapters.fa"
+# Reads shorter than this after trimming will be discarded. Pairs will be discarded if both are shorter.
 minlen: "60"
+# Kmer length used for finding contaminants. Contaminants shorter than k will not be found. k must be at least 1.
 kmer_length: "27"
+# Look for shorter kmers at read tips down to this length, when k-trimming or masking. 0 means disabled.
 min_kmer_length: "5"
+# Regions with average quality BELOW this will be trimmed, if qtrim is set to something other than f. Can be a floating-point number like 7.3.
 quality_trim: "12"
 
 # Host depletion parameters
