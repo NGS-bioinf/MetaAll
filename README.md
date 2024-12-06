@@ -172,7 +172,7 @@ Long reads reference genome alignment:
            "<output_path>/ref_mapping/mapping_statistics/<sample_name>_allstats.txt"
            "<output_path>/ref_mapping/mapping_statistics/{sample}_covdepth.txt"
 ```
-## Citaion
+## Citation
 If you use MetaAll workflow, please cite:
 
 Bosilj, M. et al. MetaAll: integrative bioinformatics workflow for analysing clinical metagenomic data. Briefings in Bioinformatics 25, bbae597 (2024). https://doi.org/10.1093/bib/bbae597
