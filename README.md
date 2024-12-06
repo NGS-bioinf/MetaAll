@@ -172,6 +172,9 @@ Long reads reference genome alignment:
            "<output_path>/ref_mapping/mapping_statistics/<sample_name>_allstats.txt"
            "<output_path>/ref_mapping/mapping_statistics/{sample}_covdepth.txt"
 ```
+## Citaion
+If you use MetaAll workflow, please cite:
+https://academic.oup.com/bib/article/25/6/bbae597/7901732
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
 [MultiQC](https://github.com/ewels/MultiQC)
