@@ -174,7 +174,9 @@ Long reads reference genome alignment:
 ```
 ## Citaion
 If you use MetaAll workflow, please cite:
-https://academic.oup.com/bib/article/25/6/bbae597/7901732
+
+Bosilj, M. et al. MetaAll: integrative bioinformatics workflow for analysing clinical metagenomic data. Briefings in Bioinformatics 25, bbae597 (2024). https://doi.org/10.1093/bib/bbae597
+
 ## List of tools used
 [FastQC](https://github.com/s-andrews/FastQC)
 [MultiQC](https://github.com/ewels/MultiQC)
